@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 public class MapActivity extends AppCompatActivity {
 
+    private int testInt;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
