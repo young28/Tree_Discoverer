@@ -6,7 +6,7 @@ import android.os.Bundle;
 public class MapActivity extends AppCompatActivity {
 
 //Ciao Matteo!!!!
-//Ciao Yang!
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
