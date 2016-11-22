@@ -10,11 +10,13 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.pinatala.tree_discoverer.MapActivity">
 
-        <fragment
-            android:id="@+id/mapsfragment"
-            class="com.google.android.gms.maps.MapFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
 
-
+        <Button
+            android:text="Camera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="15dp"
+            android:id="@+id/cameraButton"/>
 </RelativeLayout>
