@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 public class MapActivity extends AppCompatActivity {
 
-//Ciao Matteo!!!!
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
