@@ -178,6 +178,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             ActivityCompat.requestPermissions(MapsActivity.this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 2);
         }
+        if (mGoogleApiClient.isConnected())LocationServices.FusedLocationApi.requestLocationUpdates(
+                mGoogleApiClient, mLocationRequest, this);
     }
     @Override
     protected void onPause() {
@@ -185,9 +187,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (mGoogleApiClient.isConnected()) {
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
             mGoogleApiClient.disconnect();
+           stopLocationUpdates();
         }
     }
-
+    protected void stopLocationUpdates() {
+        LocationServices.FusedLocationApi.removeLocationUpdates(
+                mGoogleApiClient, this);
+    }
     private void setUpMapIfNeeded() {
 
     }
@@ -197,7 +203,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         double currentLatitude = location.getLatitude();
         double currentLongitude = location.getLongitude();
         LatLng latLng = new LatLng(currentLatitude, currentLongitude);
-        Bitmap icon = BitmapFactory.decodeResource(getResources(),R.mipmap.position_logo);
+        Bitmap icon = BitmapFactory.decodeResource(getResources(),R.mipmap.user_position_logo);
         MarkerOptions options = new MarkerOptions()
                 .position(latLng)
                 .title("I am here!")
