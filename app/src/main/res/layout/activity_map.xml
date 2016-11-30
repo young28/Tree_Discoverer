@@ -19,4 +19,13 @@
             android:id="@+id/cameraButton"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"/>
+
+        <Button
+            android:text="Create A Test Position Marker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/cameraButton"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            android:id="@+id/testPositionButton"/>
 </RelativeLayout>
