@@ -35,13 +35,18 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import static android.R.attr.data;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener,
-        View.OnClickListener{
+        View.OnClickListener
+//        GoogleMap.OnMarkerClickListener
+ {
 
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
@@ -55,6 +60,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Bundle imagesBundle;
     private LocationRequest mLocationRequest;
     private Location mLocation;
+    private Marker actualPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -209,7 +215,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .position(latLng)
                 .title("I am here!")
                 .icon(BitmapDescriptorFactory.fromBitmap(icon));
-        mMap.addMarker(options);
+        actualPosition = mMap.addMarker(options);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLatitude, currentLongitude), 18));
 
@@ -224,9 +230,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Bitmap icon = BitmapFactory.decodeResource(getResources(),R.mipmap.tree_logo3);
         MarkerOptions options = new MarkerOptions()
                 .position(latLng)
-                .title("Add a new tree!")
+                .title("Coordinates")
                 .icon(BitmapDescriptorFactory.fromBitmap(icon));
         mMap.addMarker(options);
+//        mMap.setOnMarkerClickListener(this);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLatitude, currentLongitude), 18));
 
@@ -235,7 +242,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onLocationChanged(Location location) {
-
         handleNewLocation(location);
         mLocation = location;
         Log.d(TAG, "My Last Location " + mLocation.getLatitude()+ " " + mLocation.getLongitude());
@@ -247,30 +253,49 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         createTestLocation(mLocation);
 
     }
-
+//    @Override
+//    public boolean onMarkerClick(final Marker marker) {
+//
+//        if (marker.equals(myMarker))
+//        {
+//            //handle click here
+//        }
+//    }
+    //find marker by title
+//    @Override
+//    public boolean onMarkerClick(final Marker marker) {
+//
+//        String name = marker.getTitle();
+//
+//        if (name.equalsIgnoreCase("I am here!")) {
+//            //write your code here
+//        } else {
+//
+//        }
+//    }
 
     // To take the photo of the tree and leaf, and display in DisplayActivity
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE_FIRST && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap image = (Bitmap) extras.get("data");
-            imagesBundle.putByteArray("tree_image", Utilities.bitmapToByteArray(image));
+        @Override
+        protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+            if (requestCode == REQUEST_IMAGE_CAPTURE_FIRST && resultCode == RESULT_OK) {
+                Bundle extras = data.getExtras();
+                Bitmap image = (Bitmap) extras.get("data");
+                imagesBundle.putByteArray("tree_image", Utilities.bitmapToByteArray(image));
 
-            Intent takePhotoIntent2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            if (takePhotoIntent2.resolveActivity(getPackageManager()) != null) {
-                startActivityForResult(takePhotoIntent2, REQUEST_IMAGE_CAPTURE_SECOND);
+                Intent takePhotoIntent2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if (takePhotoIntent2.resolveActivity(getPackageManager()) != null) {
+                    startActivityForResult(takePhotoIntent2, REQUEST_IMAGE_CAPTURE_SECOND);
+                }
             }
-        }
-        else if (requestCode == REQUEST_IMAGE_CAPTURE_SECOND && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap image = (Bitmap) extras.get("data");
-            imagesBundle.putByteArray("leaf_image", Utilities.bitmapToByteArray(image));
+            else if (requestCode == REQUEST_IMAGE_CAPTURE_SECOND && resultCode == RESULT_OK) {
+                Bundle extras = data.getExtras();
+                Bitmap image = (Bitmap) extras.get("data");
+                imagesBundle.putByteArray("leaf_image", Utilities.bitmapToByteArray(image));
 
-            Intent newActivityIntent = new Intent(this, DisplayActivity.class);
-            newActivityIntent.putExtra("extras", imagesBundle);
-            startActivity(newActivityIntent);
-        }
+                Intent newActivityIntent = new Intent(this, DisplayActivity.class);
+                newActivityIntent.putExtra("extras", imagesBundle);
+                startActivity(newActivityIntent);
+            }
 
     }
 
