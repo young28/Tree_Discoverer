@@ -144,12 +144,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
         mLocation = location;
 
-//        if (location == null) {
-//            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-//        }
-//        else {
-//            handleNewLocation(location);
-//        };
+
+        if (location == null) {
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+        }
+        else {
+            findInitialLocation(location);
+        };
     }
 
     @Override
@@ -204,8 +205,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void setUpMapIfNeeded() {
 
     }
-
-    private void handleNewLocation(Location location) {
+    private void findInitialLocation (Location location){
         Log.d(TAG, location.toString());
         double currentLatitude = location.getLatitude();
         double currentLongitude = location.getLongitude();
@@ -218,8 +218,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         actualPosition = mMap.addMarker(options);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLatitude, currentLongitude), 18));
-
-
+    }
+    private void handleNewLocation(Location location) {
+        Log.d(TAG, location.toString());
+        double currentLatitude = location.getLatitude();
+        double currentLongitude = location.getLongitude();
+        actualPosition.setPosition( new LatLng(currentLatitude, currentLongitude));
     }
 
     private void createTestLocation(Location location) {
