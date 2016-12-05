@@ -38,15 +38,17 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
+
 import static android.R.attr.data;
+import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener,
-        View.OnClickListener
-//        GoogleMap.OnMarkerClickListener
- {
+        View.OnClickListener,
+        GoogleMap.OnMarkerClickListener{
 
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
@@ -54,6 +56,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     static final int REQUEST_IMAGE_CAPTURE_FIRST = 1;
     static final int REQUEST_IMAGE_CAPTURE_SECOND = 2;
+
+    public final static String TEST_MESSAGE = "test";
 
     private Button cameraButton;
     private Button testButton;
@@ -81,7 +85,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .addApi(AppIndex.API).build();
         mLocationRequest = LocationRequest.create()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                .setInterval(10 * 1000)        // 10 seconds, in milliseconds
+                .setInterval(1 * 1000)        // 10 seconds, in milliseconds
                 .setFastestInterval(1 * 1000); // 1 second, in milliseconds
 
 
@@ -194,7 +198,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (mGoogleApiClient.isConnected()) {
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
             mGoogleApiClient.disconnect();
-            stopLocationUpdates();
+         //   stopLocationUpdates();
         }
 
     }
@@ -237,9 +241,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .title("Coordinates")
                 .icon(BitmapDescriptorFactory.fromBitmap(icon));
         mMap.addMarker(options);
-//        mMap.setOnMarkerClickListener(this);
+        mMap.setOnMarkerClickListener(this);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLatitude, currentLongitude), 18));
+//        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLatitude, currentLongitude), 18));
 
 
     }
@@ -265,18 +269,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //            //handle click here
 //        }
 //    }
+
     //find marker by title
-//    @Override
-//    public boolean onMarkerClick(final Marker marker) {
-//
-//        String name = marker.getTitle();
-//
-//        if (name.equalsIgnoreCase("I am here!")) {
-//            //write your code here
-//        } else {
-//
-//        }
-//    }
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+
+
+            Intent intent = new Intent(this, TestClickTree.class);
+            String message = "this is a tree, test success!";
+            intent.putExtra(TEST_MESSAGE, message);
+            startActivity(intent);
+
+
+        return true;
+    }
 
     // To take the photo of the tree and leaf, and display in DisplayActivity
         @Override
