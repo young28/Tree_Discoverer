@@ -1,6 +1,5 @@
 package com.example.pinatala.tree_discoverer;
 
-import android.*;
 import android.Manifest;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -16,7 +15,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -37,11 +35,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import java.io.IOException;
-
-import static android.R.attr.data;
-import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
@@ -302,7 +295,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Bitmap image = (Bitmap) extras.get("data");
                 imagesBundle.putByteArray("leaf_image", Utilities.bitmapToByteArray(image));
 
-                Intent newActivityIntent = new Intent(this, DisplayActivity.class);
+                Intent newActivityIntent = new Intent(this, FindNewTreeActivity.class);
                 newActivityIntent.putExtra("extras", imagesBundle);
                 startActivity(newActivityIntent);
             }
