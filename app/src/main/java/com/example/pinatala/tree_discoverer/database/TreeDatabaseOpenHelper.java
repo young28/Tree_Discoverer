@@ -20,8 +20,8 @@ public class TreeDatabaseOpenHelper extends SQLiteOpenHelper {
     public static final String KEY_DATE = "date";
     public static final String KEY_LATITUDE = "latitude";
     public static final String KEY_LONGITUDE = "longitude";
-    public static final String KEY_TREE_PHOTO = "tree_photo";
-    public static final String KEY_LEAF_PHOTO = "leaf_photo";
+    public static final String KEY_TREE_PHOTO_NAME = "tree_photo";
+    public static final String KEY_LEAF_PHOTO_NAME = "leaf_photo";
     public static final String TREE_TABLE_NAME = "tree_info";
 
     public static final String KEY_TREE_TYPE_ID = "tree_type_id";
@@ -41,10 +41,10 @@ public class TreeDatabaseOpenHelper extends SQLiteOpenHelper {
     public static final String USER_TABLE_NAME = "user";
 
 
-    //now the database is without forengn key function, first test with tree table.
+    //now the database is without foreign key function, first test with tree table.
     public static final String CREATE_TABLE_TREE = "CREATE TABLE IF NOT EXISTS " + TREE_TABLE_NAME +
-            " (" + KEY_TREE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + KEY_TREE_PHOTO + " BLOB, "
-            + KEY_LEAF_PHOTO + " BLOB, "  + KEY_DATE + " TEXT, " + KEY_LATITUDE + " TEXT, " + KEY_LONGITUDE + " TEXT);";
+            " (" + KEY_TREE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + KEY_TREE_PHOTO_NAME + " TEXT, "
+            + KEY_LEAF_PHOTO_NAME + " TEXT, "  + KEY_DATE + " TEXT, " + KEY_LATITUDE + " TEXT, " + KEY_LONGITUDE + " TEXT);";
 
     public static final String CREATE_TABLE_TREE_TYPE = "CREATE TABLE IF NOT EXISTS " + TYPE_TABLE_NAME +
             " (" + KEY_TREE_TYPE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + KEY_TYPE_NAME + " TEXT);";
@@ -67,6 +67,11 @@ public class TreeDatabaseOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+    }
+
+    public TreeDatabaseOpenHelper(Context context){
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
 
     }
 

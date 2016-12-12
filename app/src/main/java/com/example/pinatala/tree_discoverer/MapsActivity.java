@@ -296,6 +296,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 imagesBundle.putByteArray("leaf_image", Utilities.bitmapToByteArray(image));
 
                 Intent newActivityIntent = new Intent(this, FindNewTreeActivity.class);
+                newActivityIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                Bundle locBundle = new Bundle();
+                locBundle.putDouble("lat", mLocation.getLatitude());
+                locBundle.putDouble("lon", mLocation.getLongitude());
+                newActivityIntent.putExtra("location", locBundle);
                 newActivityIntent.putExtra("extras", imagesBundle);
                 startActivity(newActivityIntent);
             }
