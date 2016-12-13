@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+    <TextView
+        android:text="Name The Tree"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/titleTextView"
+        android:textSize="30sp"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"/>
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:id="@id/first_linear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/titleTextView">
+
+        <ImageView
+            app:srcCompat="@drawable/common_full_open_on_phone"
+            android:id="@+id/treeImageView"
+            android:layout_weight="1"
+            android:layout_height="300dp"
+            android:layout_width="380dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"/>
+
+        <ImageView
+            android:layout_height="300dp"
+            app:srcCompat="@drawable/common_full_open_on_phone"
+            android:id="@+id/leafImageView"
+            android:layout_weight="1"
+            android:layout_width="380dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@id/second_linear"
+        android:layout_below="@+id/first_linear">
+
+        <TextView
+            android:text="Tree"
+            android:layout_below="@+id/treeImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/treeTextView"
+            android:layout_weight="1"
+            android:gravity="center_vertical|center_horizontal"
+            android:textSize="20sp"
+            android:textColor="@color/colorPrimaryDark"/>
+
+        <TextView
+            android:text="Leaf"
+            android:layout_below="@+id/leafImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/leafTextView"
+            android:layout_weight="1"
+            android:gravity="center_vertical|center_horizontal"
+            android:textSize="20sp"
+            android:textColor="@color/colorPrimaryDark"/>
+    </LinearLayout>
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner"
+        android:entries="@array/tree_types"
+        android:prompt="@string/tree_prompt"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_below="@+id/spinnerTextView"
+        android:layout_centerHorizontal="true"
+        android:textSize="20sp"
+        android:textColor="@color/colorPrimaryDark"
+        android:spinnerMode="dropdown"/>
+
+    <TextView
+        android:text="Choose The Tree Type:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerTextView"
+        android:layout_below="@+id/second_linear"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_centerHorizontal="true"
+        android:textSize="22sp"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="10dp"/>
+
+    <Button
+        android:text="SUBMIT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/submitButton"
+        android:layout_below="@+id/spinner"
+        android:textSize="20sp"
+        android:textColor="@android:color/white"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:background="@color/colorPrimaryDark"/>
+
+</RelativeLayout>

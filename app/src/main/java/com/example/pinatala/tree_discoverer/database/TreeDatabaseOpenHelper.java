@@ -12,7 +12,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class TreeDatabaseOpenHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "tree";
+    private static final String DATABASE_NAME = "tree.db";
 
     public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss:SSS";
 

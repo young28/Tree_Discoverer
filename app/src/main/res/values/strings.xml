@@ -1,4 +1,16 @@
 <resources>
     <string name="app_name">Tree Discoverer</string>
     <string name="title_activity_maps">Map</string>
+    <string name="tree_prompt">Select Tree Type</string>
+
+    <string-array name="tree_types">
+        <item>Pine</item>
+        <item>Apple Tree</item>
+        <item>Maple</item>
+        <item>Ginkgo Tree</item>
+        <item>Oak Tree</item>
+        <item>Olive Tree</item>
+        <item>Lemon Tree</item>
+    </string-array>
+
 </resources>

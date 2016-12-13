@@ -2,20 +2,19 @@ package com.example.pinatala.tree_discoverer;
 
 import android.app.Activity;
 import android.content.ContentValues;
-import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
-import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.ViewGroup;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.pinatala.tree_discoverer.database.TreeDatabaseOpenHelper;
 
@@ -25,7 +24,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Random;
 
 /**
  * Created by YouYang on 23/11/16.
@@ -40,6 +38,9 @@ public class FindNewTreeActivity extends AppCompatActivity {
     private Double lon;
     private String img1;
     private String img2;
+    private Spinner mSpinner;
+    private Button submitButton;
+    private String selectedTreeType;
 
     Activity thisActivity;
 
@@ -47,7 +48,11 @@ public class FindNewTreeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.display_layout);
+        setContentView(R.layout.findnewtree_layout);
+
+        addSubmitButton();
+        addSpinner();
+
         thisActivity = this;
         Intent data = getIntent();
         Bundle bundle = data.getBundleExtra("extras");
@@ -78,6 +83,22 @@ public class FindNewTreeActivity extends AppCompatActivity {
 
         Log.d("TreeAct", "onCreateCalled");
 
+    }
+
+    private void addSpinner() {
+        mSpinner = (Spinner) findViewById(R.id.spinner);
+        //selectedTreeType = String.valueOf(mSpinner.getSelectedItem());
+    }
+
+    private void addSubmitButton() {
+        submitButton = (Button) findViewById(R.id.submitButton);
+
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(FindNewTreeActivity.this, String.valueOf(mSpinner.getSelectedItem()) + lat + lon + img1 + img2, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override
