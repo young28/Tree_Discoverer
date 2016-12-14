@@ -52,6 +52,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public final static String TEST_MESSAGE = "test";
 
+
+
     private Button cameraButton;
     private Button testButton;
     private Bundle imagesBundle;
@@ -98,8 +100,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-
         imagesBundle = new Bundle();
+
 
     }
 
@@ -184,8 +186,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         if (mGoogleApiClient.isConnected())LocationServices.FusedLocationApi.requestLocationUpdates(
                 mGoogleApiClient, mLocationRequest, this);
+
+//        Intent data = getIntent();
+//        String img1 = data.getStringExtra("img1");
+//        String img2 = data.getStringExtra("img2");
+//        String tree_type = data.getStringExtra("type");
+//        Double lat = data.getDoubleExtra("lat",0);
+//        Double lon = data.getDoubleExtra("lon",0);
+//
+//        if(img1 != null && tree_type != null) {
+//            createMarkerLocation(lat, lon);
+//        }
     }
-    @Override
+
+
+
+        @Override
     protected void onPause() {
         super.onPause();
         if (mGoogleApiClient.isConnected()) {
@@ -241,6 +257,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+    public void createMarkerLocation(Double lat, Double lon) {
+        LatLng latLng = new LatLng(lat, lon);
+        Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.tree_logo3);
+        MarkerOptions options = new MarkerOptions()
+                .position(latLng)
+                .title("Coordinates")
+                .icon(BitmapDescriptorFactory.fromBitmap(icon));
+        mMap.addMarker(options);
+        mMap.setOnMarkerClickListener(this);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+    }
+
     @Override
     public void onLocationChanged(Location location) {
         handleNewLocation(location);
@@ -294,6 +322,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Bundle extras = data.getExtras();
                 Bitmap image = (Bitmap) extras.get("data");
                 imagesBundle.putByteArray("leaf_image", Utilities.bitmapToByteArray(image));
+
 
                 Intent newActivityIntent = new Intent(this, FindNewTreeActivity.class);
                 newActivityIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);

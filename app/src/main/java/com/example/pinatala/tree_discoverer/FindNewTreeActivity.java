@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -17,6 +18,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.pinatala.tree_discoverer.database.TreeDatabaseOpenHelper;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.Marker;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -41,6 +44,8 @@ public class FindNewTreeActivity extends AppCompatActivity {
     private Spinner mSpinner;
     private Button submitButton;
     private String selectedTreeType;
+
+    public static final String MARKER_TREE_TYPE = "tree_type";
 
     Activity thisActivity;
 
@@ -79,7 +84,7 @@ public class FindNewTreeActivity extends AppCompatActivity {
         treeImageView.setImageBitmap(treeImage);
         leafImageView.setImageBitmap(leafImage);
 
-//        new SaveToDatabase().execute();
+        new SaveToDatabase().execute();
 
         Log.d("TreeAct", "onCreateCalled");
 
@@ -90,13 +95,27 @@ public class FindNewTreeActivity extends AppCompatActivity {
         //selectedTreeType = String.valueOf(mSpinner.getSelectedItem());
     }
 
+
+
     private void addSubmitButton() {
         submitButton = (Button) findViewById(R.id.submitButton);
 
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(FindNewTreeActivity.this, String.valueOf(mSpinner.getSelectedItem()) + lat + lon + img1 + img2, Toast.LENGTH_LONG).show();
+                selectedTreeType = String.valueOf(mSpinner.getSelectedItem());
+                Toast.makeText(FindNewTreeActivity.this, String.valueOf(mSpinner.getSelectedItem())
+                        + lat + lon + img1 + img2, Toast.LENGTH_LONG).show();
+
+//                Intent intent = new Intent(FindNewTreeActivity.this, MapsActivity.class);
+//                intent.putExtra("lat", lat);
+//                intent.putExtra("lon", lon);
+//                intent.putExtra("img1", img1);
+//                intent.putExtra("img2", img2);
+//                intent.putExtra("type", selectedTreeType);
+//
+//                startActivity(intent);
+                finish();
             }
         });
     }
@@ -105,6 +124,8 @@ public class FindNewTreeActivity extends AppCompatActivity {
     protected void onResume(){
         super.onResume();
         Log.d("TreeAct", "onResumeCalled");
+
+
     }
 
     @Override
@@ -168,6 +189,7 @@ public class FindNewTreeActivity extends AppCompatActivity {
         return mediaFile;
     }
 
+
     private class SaveToDatabase extends AsyncTask<Void, Void, Void>{
 
         @Override
@@ -192,26 +214,6 @@ public class FindNewTreeActivity extends AppCompatActivity {
         }
     }
 
-//    private void SaveImage(Bitmap finalBitmap) {
-//
-//        String root = Environment.getExternalStorageDirectory().toString();
-//        File myDir = new File(root + "/saved_images");
-//        myDir.mkdirs();
-//        Random generator = new Random();
-//        int n = 10000;
-//        n = generator.nextInt(n);
-//        String fname = "Image-"+ n +".jpg";
-//        File file = new File (myDir, fname);
-//        if (file.exists ()) file.delete ();
-//        try {
-//            FileOutputStream out = new FileOutputStream(file);
-//            finalBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
-//            out.flush();
-//            out.close();
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
+
 
 }

@@ -26,6 +26,7 @@ public class TestClickTree extends AppCompatActivity {
 
         Intent data = getIntent();
         String message = data.getStringExtra(MapsActivity.TEST_MESSAGE);
+
         test = (TextView) findViewById(R.id.test_text);
         test.setTextSize(40);
         test.setText(message);
