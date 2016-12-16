@@ -4,6 +4,8 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
@@ -19,6 +21,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.pinatala.tree_discoverer.database.TreeDataSource;
+import com.example.pinatala.tree_discoverer.database.TreeDatabaseOpenHelper;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
@@ -36,6 +40,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
@@ -52,7 +58,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public final static String TEST_MESSAGE = "test";
 
-
+    private ArrayList<TreeMarker> mTreeMarkers;
+    private TreeMarker mTreeMarker;
 
     private Button cameraButton;
     private Button testButton;
@@ -60,6 +67,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LocationRequest mLocationRequest;
     private Location mLocation;
     private Marker actualPosition;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,9 +112,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         imagesBundle = new Bundle();
 
+        mTreeMarkers = new ArrayList<>();
+        mTreeMarker = new TreeMarker(0,"","","",0.0,0.0,"");
 
+        createExampleTreeMarker();
+        mTreeMarkers.add(mTreeMarker);
+
+        TreeDataSource dataSource = new TreeDataSource(this.getApplicationContext());
+        dataSource.create(mTreeMarker);
+
+        ArrayList<TreeMarker> treeMarkers = dataSource.read();
+
+        //mTreeMarkers = getValues();
     }
 
+    private void createExampleTreeMarker() {
+        mTreeMarker.setId(0);
+        mTreeMarker.setTreeImageName("MI_07122016_1453.jpg");
+        mTreeMarker.setLeafImageName("MI_07122016_1453.jpg");
+        mTreeMarker.setCreateDate("2016-12-15");
+        mTreeMarker.setLatitude(100.000000);
+        mTreeMarker.setLongitude(100.000000);
+        mTreeMarker.setTreeType("pine");
+    }
 
     /**
      * Manipulates the map once available.
@@ -186,6 +216,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         if (mGoogleApiClient.isConnected())LocationServices.FusedLocationApi.requestLocationUpdates(
                 mGoogleApiClient, mLocationRequest, this);
+
+
+
 
 //        Intent data = getIntent();
 //        String img1 = data.getStringExtra("img1");
@@ -371,6 +404,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         AppIndex.AppIndexApi.end(mGoogleApiClient, getIndexApiAction());
         mGoogleApiClient.disconnect();
     }
+
+
+
+//    public ArrayList<TreeMarker> getValues() {
+//        ArrayList<TreeMarker> markers = new ArrayList<TreeMarker>();
+//
+//        TreeDatabaseOpenHelper databaseOpenHelper = new TreeDatabaseOpenHelper(getApplicationContext());
+//        SQLiteDatabase database = databaseOpenHelper.getWritableDatabase();
+//
+//        Cursor cursor = database.query(TreeDatabaseOpenHelper.TREE_TABLE_NAME, null, null, null, null, null, null );
+//        //Cursor cursor = database.rawQuery("SELECT * FROM " + TreeDatabaseOpenHelper.TREE_TABLE_NAME, null);
+//
+//        cursor.moveToFirst();
+//
+//        for(int i=0; i<cursor.getCount(); i++){
+//            markers.add(new TreeMarker(cursor.getInt(1), cursor.getString(2),
+//                    cursor.getString(3), cursor.getString(4),cursor.getDouble(5),
+//                    cursor.getDouble(6)));
+//        }
+//
+//        cursor.close();
+//        database.close();
+//        return markers;
+//    }
 
 
 }

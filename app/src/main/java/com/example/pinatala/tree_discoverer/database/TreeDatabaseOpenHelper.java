@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.provider.BaseColumns;
 
 /**
  * Created by YouYang on 28/11/16.
@@ -12,7 +13,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class TreeDatabaseOpenHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "tree.db";
+    private static final String DATABASE_NAME = "tree";
 
     public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss:SSS";
 
@@ -22,10 +23,12 @@ public class TreeDatabaseOpenHelper extends SQLiteOpenHelper {
     public static final String KEY_LONGITUDE = "longitude";
     public static final String KEY_TREE_PHOTO_NAME = "tree_photo";
     public static final String KEY_LEAF_PHOTO_NAME = "leaf_photo";
+    public static final String KEY_TYPE_NAME = "type_name";
+
     public static final String TREE_TABLE_NAME = "tree_info";
 
     public static final String KEY_TREE_TYPE_ID = "tree_type_id";
-    public static final String KEY_TYPE_NAME = "type_name";
+    //public static final String KEY_TYPE_NAME = "type_name";
     public static final String TYPE_TABLE_NAME = "tree_type";
 
     public static final String KEY_COMMENT_ID = "comment_id";
@@ -43,8 +46,12 @@ public class TreeDatabaseOpenHelper extends SQLiteOpenHelper {
 
     //now the database is without foreign key function, first test with tree table.
     public static final String CREATE_TABLE_TREE = "CREATE TABLE IF NOT EXISTS " + TREE_TABLE_NAME +
-            " (" + KEY_TREE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + KEY_TREE_PHOTO_NAME + " TEXT, "
-            + KEY_LEAF_PHOTO_NAME + " TEXT, "  + KEY_DATE + " TEXT, " + KEY_LATITUDE + " TEXT, " + KEY_LONGITUDE + " TEXT);";
+            " ("
+            + KEY_TREE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + KEY_TREE_PHOTO_NAME + " TEXT, "
+            + KEY_LEAF_PHOTO_NAME + " TEXT, "  + KEY_DATE + " TEXT, " + KEY_LATITUDE + " REAL, "
+            + KEY_LONGITUDE + " REAL, " + KEY_TYPE_NAME + " TEXT);";
+
+
 
     public static final String CREATE_TABLE_TREE_TYPE = "CREATE TABLE IF NOT EXISTS " + TYPE_TABLE_NAME +
             " (" + KEY_TREE_TYPE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + KEY_TYPE_NAME + " TEXT);";

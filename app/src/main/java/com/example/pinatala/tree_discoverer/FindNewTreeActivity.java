@@ -84,7 +84,7 @@ public class FindNewTreeActivity extends AppCompatActivity {
         treeImageView.setImageBitmap(treeImage);
         leafImageView.setImageBitmap(leafImage);
 
-        new SaveToDatabase().execute();
+
 
         Log.d("TreeAct", "onCreateCalled");
 
@@ -104,8 +104,9 @@ public class FindNewTreeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 selectedTreeType = String.valueOf(mSpinner.getSelectedItem());
-                Toast.makeText(FindNewTreeActivity.this, String.valueOf(mSpinner.getSelectedItem())
+                Toast.makeText(FindNewTreeActivity.this, selectedTreeType
                         + lat + lon + img1 + img2, Toast.LENGTH_LONG).show();
+                new SaveToDatabase().execute();
 
 //                Intent intent = new Intent(FindNewTreeActivity.this, MapsActivity.class);
 //                intent.putExtra("lat", lat);
@@ -205,6 +206,7 @@ public class FindNewTreeActivity extends AppCompatActivity {
             values.put(TreeDatabaseOpenHelper.KEY_LONGITUDE, lon);
             values.put(TreeDatabaseOpenHelper.KEY_TREE_PHOTO_NAME, img1);
             values.put(TreeDatabaseOpenHelper.KEY_LEAF_PHOTO_NAME, img2);
+            values.put(TreeDatabaseOpenHelper.KEY_TYPE_NAME, selectedTreeType);
 
             long inserted = database.insert(TreeDatabaseOpenHelper.TREE_TABLE_NAME, null, values);
 
