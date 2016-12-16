@@ -42,6 +42,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 
+import static android.R.attr.id;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
@@ -113,21 +115,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         imagesBundle = new Bundle();
 
         mTreeMarkers = new ArrayList<>();
-        mTreeMarker = new TreeMarker(0,"","","",0.0,0.0,"");
+        //mTreeMarker = new TreeMarker(700,"","","",0.0,0.0,"");
 
-        createExampleTreeMarker();
-        mTreeMarkers.add(mTreeMarker);
+        //createExampleTreeMarker();
+        //mTreeMarkers.add(mTreeMarker);
 
         TreeDataSource dataSource = new TreeDataSource(this.getApplicationContext());
-        dataSource.create(mTreeMarker);
+        //dataSource.create(mTreeMarker);
 
-        ArrayList<TreeMarker> treeMarkers = dataSource.read();
+        //ArrayList<TreeMarker> treeMarkers = dataSource.read();
 
         //mTreeMarkers = getValues();
     }
 
     private void createExampleTreeMarker() {
-        mTreeMarker.setId(0);
+
         mTreeMarker.setTreeImageName("MI_07122016_1453.jpg");
         mTreeMarker.setLeafImageName("MI_07122016_1453.jpg");
         mTreeMarker.setCreateDate("2016-12-15");
@@ -217,7 +219,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (mGoogleApiClient.isConnected())LocationServices.FusedLocationApi.requestLocationUpdates(
                 mGoogleApiClient, mLocationRequest, this);
 
-
+        //updateMarkers();
 
 
 //        Intent data = getIntent();
@@ -290,16 +292,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    public void createMarkerLocation(Double lat, Double lon) {
+    public void createMarkerLocation(int id, Double lat, Double lon) {
         LatLng latLng = new LatLng(lat, lon);
+        int identifier = id;
         Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.tree_logo3);
         MarkerOptions options = new MarkerOptions()
                 .position(latLng)
-                .title("Coordinates")
+                .title("id:" + id)
                 .icon(BitmapDescriptorFactory.fromBitmap(icon));
         mMap.addMarker(options);
         mMap.setOnMarkerClickListener(this);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+    }
+
+    private void updateMarkers (){
+        TreeDataSource dataSource = new TreeDataSource(this.getApplicationContext());
+        ArrayList<TreeMarker> treeMarkers = dataSource.read();
+        for (int i = 0; i < treeMarkers.size(); i++){
+            TreeMarker currentTree = treeMarkers.get(i);
+            int id = currentTree.getId();
+            double lat = currentTree.getLatitude ();
+            double lon = currentTree.getLongitude ();
+           createMarkerLocation(id ,lat,lon);
+        }
+
     }
 
     @Override

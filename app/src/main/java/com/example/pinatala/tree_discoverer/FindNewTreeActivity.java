@@ -3,6 +3,7 @@ package com.example.pinatala.tree_discoverer;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.location.Location;
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.pinatala.tree_discoverer.database.TreeDataSource;
 import com.example.pinatala.tree_discoverer.database.TreeDatabaseOpenHelper;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
@@ -26,6 +28,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -44,6 +47,8 @@ public class FindNewTreeActivity extends AppCompatActivity {
     private Spinner mSpinner;
     private Button submitButton;
     private String selectedTreeType;
+    private TreeMarker treeMarkerClick;
+    private int id;
 
     public static final String MARKER_TREE_TYPE = "tree_type";
 
@@ -104,9 +109,23 @@ public class FindNewTreeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 selectedTreeType = String.valueOf(mSpinner.getSelectedItem());
-                Toast.makeText(FindNewTreeActivity.this, selectedTreeType
+                id = getTreesCount();
+                Toast.makeText(FindNewTreeActivity.this, selectedTreeType + "["+id+"]"
                         + lat + lon + img1 + img2, Toast.LENGTH_LONG).show();
-                new SaveToDatabase().execute();
+                //new SaveToDatabase().execute();
+                treeMarkerClick = new TreeMarker(id , img1 ,img2, "", lat,lon, selectedTreeType);
+//                treeMarkerClick.setTreeImageName(img1);
+//                treeMarkerClick.setLeafImageName(img2);
+//                treeMarkerClick.setCreateDate("");
+//                treeMarkerClick.setLatitude(lat);
+//                treeMarkerClick.setLongitude(lon);
+//                treeMarkerClick.setTreeType(selectedTreeType);
+
+                TreeDataSource dataSource = new TreeDataSource(FindNewTreeActivity.this);
+                dataSource.create(treeMarkerClick);
+
+                ArrayList<TreeMarker> testMarkers = dataSource.read();
+
 
 //                Intent intent = new Intent(FindNewTreeActivity.this, MapsActivity.class);
 //                intent.putExtra("lat", lat);
@@ -214,6 +233,15 @@ public class FindNewTreeActivity extends AppCompatActivity {
             database.close();
             return null;
         }
+    }
+    public int getTreesCount() {
+        TreeDatabaseOpenHelper treeDatabaseOpenHelper = new TreeDatabaseOpenHelper(this.getApplicationContext());
+        String countQuery = "SELECT  * FROM " + TreeDatabaseOpenHelper.TREE_TABLE_NAME;
+        SQLiteDatabase db =  treeDatabaseOpenHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+        int cnt = cursor.getCount();
+        cursor.close();
+        return cnt;
     }
 
 
