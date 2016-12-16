@@ -11,26 +11,38 @@
     android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.pinatala.tree_discoverer.MapsActivity"
+    tools:context="com.example.pinatala.tree_discoverer.ui.MapsActivity"
         tools:layout="@layout/activity_maps" />
-    <Button
-        android:text="Camera"
+
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="28dp"
-        android:id="@+id/cameraButton"
+        android:id="@id/second_linear"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"/>
+        android:layout_below="@+id/first_linear">
 
-    <Button
-        android:text="Create A Test Position Marker"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/cameraButton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
-        android:id="@+id/testPositionButton"/>
+        <Button
+            android:text="Find A New Tree"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/cameraButton"
+            android:layout_weight="1"
+            android:gravity="center_vertical|center_horizontal"
+            android:textColor="@android:color/white"
+            android:background="@color/colorPrimaryDark"/>
 
-    </RelativeLayout>
+        <Button
+            android:text="Refresh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/testPositionButton"
+            android:layout_weight="1"
+            android:gravity="center_vertical|center_horizontal"
+            android:textColor="@android:color/white"
+            android:background="@color/colorPrimaryDark"/>
+    </LinearLayout>
+
+</RelativeLayout>
 
 

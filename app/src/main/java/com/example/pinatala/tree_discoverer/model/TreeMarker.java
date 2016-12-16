@@ -1,4 +1,4 @@
-package com.example.pinatala.tree_discoverer;
+package com.example.pinatala.tree_discoverer.model;
 
 /**
  * Created by YouYang on 14/12/16.

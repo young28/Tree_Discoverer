@@ -1,4 +1,4 @@
-package com.example.pinatala.tree_discoverer;
+package com.example.pinatala.tree_discoverer.ui;
 
 import android.app.Activity;
 import android.content.ContentValues;
@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
-import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -18,10 +17,11 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.pinatala.tree_discoverer.R;
+import com.example.pinatala.tree_discoverer.Utilities;
 import com.example.pinatala.tree_discoverer.database.TreeDataSource;
 import com.example.pinatala.tree_discoverer.database.TreeDatabaseOpenHelper;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.Marker;
+import com.example.pinatala.tree_discoverer.model.TreeMarker;
 
 import java.io.File;
 import java.io.FileNotFoundException;

@@ -1,4 +1,4 @@
-package com.example.pinatala.tree_discoverer;
+package com.example.pinatala.tree_discoverer.ui;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -8,6 +8,9 @@ import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.pinatala.tree_discoverer.R;
+import com.example.pinatala.tree_discoverer.ui.MapsActivity;
 
 import java.io.File;
 

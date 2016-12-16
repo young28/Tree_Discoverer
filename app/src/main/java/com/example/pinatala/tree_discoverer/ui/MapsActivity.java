@@ -1,11 +1,9 @@
-package com.example.pinatala.tree_discoverer;
+package com.example.pinatala.tree_discoverer.ui;
 
 import android.Manifest;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
@@ -21,8 +19,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.pinatala.tree_discoverer.R;
+import com.example.pinatala.tree_discoverer.Utilities;
 import com.example.pinatala.tree_discoverer.database.TreeDataSource;
-import com.example.pinatala.tree_discoverer.database.TreeDatabaseOpenHelper;
+import com.example.pinatala.tree_discoverer.model.TreeMarker;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
@@ -41,8 +41,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
-
-import static android.R.attr.id;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
@@ -69,8 +67,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LocationRequest mLocationRequest;
     private Location mLocation;
     private Marker actualPosition;
-
-
 
 
     @Override
@@ -219,7 +215,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (mGoogleApiClient.isConnected())LocationServices.FusedLocationApi.requestLocationUpdates(
                 mGoogleApiClient, mLocationRequest, this);
 
-        //updateMarkers();
+        updateMarkers();
 
 
 //        Intent data = getIntent();
@@ -300,8 +296,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .position(latLng)
                 .title("id:" + id)
                 .icon(BitmapDescriptorFactory.fromBitmap(icon));
-        mMap.addMarker(options);
-        mMap.setOnMarkerClickListener(this);
+        if(mMap!=null) {
+            mMap.addMarker(options);
+            mMap.setOnMarkerClickListener(this);
+        }
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
     }
 
@@ -328,8 +326,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onClick(View v) {
-        createTestLocation(mLocation);
-
+        //createTestLocation(mLocation);
+        updateMarkers ();
     }
 //    @Override
 //    public boolean onMarkerClick(final Marker marker) {

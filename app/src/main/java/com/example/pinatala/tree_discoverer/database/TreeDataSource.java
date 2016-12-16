@@ -4,9 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.provider.BaseColumns;
 
-import com.example.pinatala.tree_discoverer.TreeMarker;
+import com.example.pinatala.tree_discoverer.model.TreeMarker;
 
 import java.util.ArrayList;
 

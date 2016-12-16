@@ -24,15 +24,15 @@
         android:supportsRtl="true"
         android:debuggable="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MapsActivity">
+        <activity android:name=".ui.MapsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".FindNewTreeActivity" />
-        <activity android:name=".TestClickTree" />
+        <activity android:name=".ui.FindNewTreeActivity" />
+        <activity android:name=".ui.TestClickTree" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
