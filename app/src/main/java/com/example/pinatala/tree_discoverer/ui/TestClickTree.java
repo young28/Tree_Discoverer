@@ -80,7 +80,7 @@ public class TestClickTree extends AppCompatActivity {
                     + getApplicationContext().getPackageName()
                     + "/Files/"
                     + leafImage);
-            IVLeaf.setImageBitmap(bMapTree);
+            IVLeaf.setImageBitmap(bMapLeaf);
 
         }
 
