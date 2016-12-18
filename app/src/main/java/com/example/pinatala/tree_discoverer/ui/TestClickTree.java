@@ -10,9 +10,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.pinatala.tree_discoverer.R;
+import com.example.pinatala.tree_discoverer.database.TreeDataSource;
+import com.example.pinatala.tree_discoverer.model.TreeMarker;
 import com.example.pinatala.tree_discoverer.ui.MapsActivity;
 
 import java.io.File;
+import java.util.ArrayList;
 
 /**
  * Created by YouYang on 05/12/16.
@@ -20,6 +23,10 @@ import java.io.File;
 
 public class TestClickTree extends AppCompatActivity {
     private TextView test;
+    private String type;
+    private String treeImage;
+    private String leafImage;
+
 
 
     @Override
@@ -29,29 +36,53 @@ public class TestClickTree extends AppCompatActivity {
 
         Intent data = getIntent();
         String message = data.getStringExtra(MapsActivity.TEST_MESSAGE);
-        int id = Integer.parseInt(message);
-        test = (TextView) findViewById(R.id.titleTextView);
-        test.setTextSize(40);
-        test.setText("id :" + id);
+        if (message == "I am here!") {
+            test = (TextView) findViewById(R.id.titleTextView);
+            test.setTextSize(40);
+            test.setText(message);
+        } else {
 
-        File root = Environment.getExternalStorageDirectory();
-        ImageView IVTree = (ImageView) findViewById(R.id.treeImageView);
-        Bitmap bMapTree = BitmapFactory.decodeFile(root
-                + "/Android/data/"
-                + getApplicationContext().getPackageName()
-                + "/Files/"
-                + "MI_07122016_1453.jpg");
-        IVTree.setImageBitmap(bMapTree);
+            int id = Integer.parseInt(message);
 
-        ImageView IVLeaf = (ImageView) findViewById(R.id.treeImageView);
-        Bitmap bMapLeaf = BitmapFactory.decodeFile(root
-                + "/Android/data/"
-                + getApplicationContext().getPackageName()
-                + "/Files/"
-                + "MI_07122016_1453.jpg");
-        IVLeaf.setImageBitmap(bMapTree);
+
+            TreeDataSource dataSource = new TreeDataSource(this.getApplicationContext());
+            ArrayList<TreeMarker> treeMarkers = dataSource.read();
+            TreeMarker currentTree = treeMarkers.get(id);
+//        if (id == currentTree.getId()) {
+//            test = (TextView) findViewById(R.id.titleTextView);
+//            test.setTextSize(40);
+//            test.setText("id :" + id + " OK");
+//        } else{
+//            test = (TextView) findViewById(R.id.titleTextView);
+//            test.setTextSize(40);
+//            test.setText("id :" + id + " NO");
+//        }
+            type = currentTree.getTreeType();
+            treeImage = currentTree.getTreeImageName();
+            leafImage = currentTree.getLeafImageName();
+
+            test = (TextView) findViewById(R.id.titleTextView);
+            test.setTextSize(40);
+            test.setText(type);
+
+            File root = Environment.getExternalStorageDirectory();
+            ImageView IVTree = (ImageView) findViewById(R.id.treeImageView);
+            Bitmap bMapTree = BitmapFactory.decodeFile(root
+                    + "/Android/data/"
+                    + getApplicationContext().getPackageName()
+                    + "/Files/"
+                    + treeImage);
+            IVTree.setImageBitmap(bMapTree);
+
+            ImageView IVLeaf = (ImageView) findViewById(R.id.leafImageView);
+            Bitmap bMapLeaf = BitmapFactory.decodeFile(root
+                    + "/Android/data/"
+                    + getApplicationContext().getPackageName()
+                    + "/Files/"
+                    + leafImage);
+            IVLeaf.setImageBitmap(bMapTree);
+
+        }
 
     }
-
-
 }

@@ -290,7 +290,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void createMarkerLocation(int id, Double lat, Double lon) {
         LatLng latLng = new LatLng(lat, lon);
-        int identifier = id;
+        //int identifier = id;
         Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.tree_logo3);
         MarkerOptions options = new MarkerOptions()
                 .position(latLng)
