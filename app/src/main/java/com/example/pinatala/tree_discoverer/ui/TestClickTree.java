@@ -29,19 +29,27 @@ public class TestClickTree extends AppCompatActivity {
 
         Intent data = getIntent();
         String message = data.getStringExtra(MapsActivity.TEST_MESSAGE);
-
-        test = (TextView) findViewById(R.id.test_text);
+        int id = Integer.parseInt(message);
+        test = (TextView) findViewById(R.id.titleTextView);
         test.setTextSize(40);
-        test.setText(message);
+        test.setText("id :" + id);
 
         File root = Environment.getExternalStorageDirectory();
-        ImageView IV = (ImageView) findViewById(R.id.imageTest);
-        Bitmap bMap = BitmapFactory.decodeFile(root
+        ImageView IVTree = (ImageView) findViewById(R.id.treeImageView);
+        Bitmap bMapTree = BitmapFactory.decodeFile(root
                 + "/Android/data/"
                 + getApplicationContext().getPackageName()
                 + "/Files/"
                 + "MI_07122016_1453.jpg");
-        IV.setImageBitmap(bMap);
+        IVTree.setImageBitmap(bMapTree);
+
+        ImageView IVLeaf = (ImageView) findViewById(R.id.treeImageView);
+        Bitmap bMapLeaf = BitmapFactory.decodeFile(root
+                + "/Android/data/"
+                + getApplicationContext().getPackageName()
+                + "/Files/"
+                + "MI_07122016_1453.jpg");
+        IVLeaf.setImageBitmap(bMapTree);
 
     }
 

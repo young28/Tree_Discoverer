@@ -294,8 +294,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.tree_logo3);
         MarkerOptions options = new MarkerOptions()
                 .position(latLng)
-                .title("id:" + id)
+                .title(Integer.toString(id))
                 .icon(BitmapDescriptorFactory.fromBitmap(icon));
+
         if(mMap!=null) {
             mMap.addMarker(options);
             mMap.setOnMarkerClickListener(this);
@@ -345,7 +346,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             Intent intent = new Intent(this, TestClickTree.class);
             String message = "this is a tree, test success!";
-            intent.putExtra(TEST_MESSAGE, message);
+            String id = marker.getTitle();
+            intent.putExtra(TEST_MESSAGE, id);
             startActivity(intent);
 
 
