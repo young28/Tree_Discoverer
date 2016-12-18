@@ -103,4 +103,11 @@ public class TreeDataSource {
         database.endTransaction();
         close(database);
     }
+    public void delete (String id){
+        SQLiteDatabase database = open();
+        database.beginTransaction();
+
+        ContentValues treeValues = new ContentValues();
+        treeValues.remove(id);
+    }
 }

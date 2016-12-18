@@ -50,6 +50,7 @@ public class FindNewTreeActivity extends AppCompatActivity {
     private TreeMarker treeMarkerClick;
     private int id;
 
+
     public static final String MARKER_TREE_TYPE = "tree_type";
 
     Activity thisActivity;

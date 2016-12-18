@@ -6,26 +6,31 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.pinatala.tree_discoverer.R;
 import com.example.pinatala.tree_discoverer.database.TreeDataSource;
 import com.example.pinatala.tree_discoverer.model.TreeMarker;
-import com.example.pinatala.tree_discoverer.ui.MapsActivity;
 
 import java.io.File;
 import java.util.ArrayList;
+
+import static com.example.pinatala.tree_discoverer.R.id.cameraButton;
+import static com.example.pinatala.tree_discoverer.R.id.deleteButton;
 
 /**
  * Created by YouYang on 05/12/16.
  */
 
 public class TestClickTree extends AppCompatActivity {
-    private TextView test;
+    private TextView treeType;
     private String type;
     private String treeImage;
     private String leafImage;
+    private String message;
+    private Button deleteButton;
 
 
 
@@ -34,13 +39,16 @@ public class TestClickTree extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test_click_layout);
 
+        //deleteButton = (Button) findViewById(deleteButton);
+
         Intent data = getIntent();
-        String message = data.getStringExtra(MapsActivity.TEST_MESSAGE);
-        if (message == "I am here!") {
-            test = (TextView) findViewById(R.id.titleTextView);
-            test.setTextSize(40);
-            test.setText(message);
-        } else {
+        message = data.getStringExtra(MapsActivity.TEST_MESSAGE);
+        if (message.equalsIgnoreCase("I am here!")) {
+            treeType = (TextView) findViewById(R.id.titleTextView);
+            treeType.setTextSize(40);
+            treeType.setText(message);
+        }
+        else {
 
             int id = Integer.parseInt(message);
 
@@ -48,22 +56,25 @@ public class TestClickTree extends AppCompatActivity {
             TreeDataSource dataSource = new TreeDataSource(this.getApplicationContext());
             ArrayList<TreeMarker> treeMarkers = dataSource.read();
             TreeMarker currentTree = treeMarkers.get(id);
+
+            // Test ID
 //        if (id == currentTree.getId()) {
-//            test = (TextView) findViewById(R.id.titleTextView);
-//            test.setTextSize(40);
-//            test.setText("id :" + id + " OK");
+//            treeType = (TextView) findViewById(R.id.titleTextView);
+//            treeType.setTextSize(40);
+//            treeType.setText("id :" + id + " OK");
 //        } else{
-//            test = (TextView) findViewById(R.id.titleTextView);
-//            test.setTextSize(40);
-//            test.setText("id :" + id + " NO");
+//            treeType = (TextView) findViewById(R.id.titleTextView);
+//            treeType.setTextSize(40);
+//            treeType.setText("id :" + id + " NO");
 //        }
+
             type = currentTree.getTreeType();
             treeImage = currentTree.getTreeImageName();
             leafImage = currentTree.getLeafImageName();
 
-            test = (TextView) findViewById(R.id.titleTextView);
-            test.setTextSize(40);
-            test.setText(type);
+            treeType = (TextView) findViewById(R.id.titleTextView);
+            treeType.setTextSize(40);
+            treeType.setText(type);
 
             File root = Environment.getExternalStorageDirectory();
             ImageView IVTree = (ImageView) findViewById(R.id.treeImageView);
