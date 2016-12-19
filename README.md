@@ -12,17 +12,17 @@ Users can take the picture of the tree shape and leaf shape, and add this to the
 ------------------------------------------------
 2.Current job
 ------------------------------------------------
-Currently we finished the first approach of the project goal: 
+Currently we finished the first approach of the project goal: <br />
 
-1)we realized the Camera function;
-2)Picture storage;
-3)Database building; 
-4)Databse CRUD oprations;
-5)Information visualizeation;
-6)Google Map location getting;
-7)Google Map markers customizing;
-8)Google Map markers creation & updating;
-9)The UI design.
+1)we realized the Camera function; <br />
+2)Picture storage; <br />
+3)Database building; <br />
+4)Databse CRUD oprations; <br />
+5)Information visualizeation; <br />
+6)Google Map location getting; <br />
+7)Google Map markers customizing; <br />
+8)Google Map markers creation & updating; <br />
+9)The UI design <br />
 
 Now we have the single user application working well! 
 Our next step will be make it multiple users and with remote databse connection.
@@ -35,5 +35,5 @@ And first install and open the app, please wait for its initialization.
 The rest is waiting for you to explore!
 Suggestion are always welcomed!
 
-Team Piantala!
+Team Piantala! <br />
 Dec 19th, 2016
