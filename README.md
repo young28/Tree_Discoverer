@@ -18,7 +18,7 @@ Currently we finished the first approach of the project goal: <br />
 2)Picture storage; <br />
 3)Database building; <br />
 4)Databse CRUD oprations; <br />
-5)Information visualizeation; <br />
+5)Information visualization; <br />
 6)Google Map location getting; <br />
 7)Google Map markers customizing; <br />
 8)Google Map markers creation & updating; <br />
@@ -31,7 +31,7 @@ Our next step will be make it multiple users and with remote databse connection.
 3.Tips for the use
 ------------------------------------------------
 When open the application, make sure you have the Wifi connection and GPS function switch on.<br />
-And first install and open the app, please wait for its initialization.<br />
+The first time you install and open the app, please wait for its initialization.<br />
 The rest is waiting for you to explore!<br />
 Suggestion are always welcomed!<br />
 
