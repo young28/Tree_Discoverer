@@ -19,7 +19,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 /**
- * Created by YouYang on 05/12/16.
+ * Created by Matteo Pontiggia on 05/12/16.
  */
 
 public class TreeMarkerDisplay extends AppCompatActivity {
@@ -42,7 +42,7 @@ public class TreeMarkerDisplay extends AppCompatActivity {
         deleteButton = (Button) findViewById(R.id.deleteButton);
 
         final Intent data = getIntent();
-        message = data.getStringExtra(MapsActivity.TEST_MESSAGE);
+        message = data.getStringExtra(MapsActivity.MARKER_MESSAGE);
         if (message.equalsIgnoreCase("I am here!")) {
             treeType = (TextView) findViewById(R.id.titleTextView);
             treeType.setTextSize(40);
@@ -54,43 +54,49 @@ public class TreeMarkerDisplay extends AppCompatActivity {
 
             TreeDataSource dataSource = new TreeDataSource(this.getApplicationContext());
             ArrayList<TreeMarker> treeMarkers = dataSource.read();
-            TreeMarker currentTree = treeMarkers.get(treeId);
+            if (treeMarkers.size() > treeId) {
+                TreeMarker currentTree = treeMarkers.get(treeId);
 
-            // Test ID
-//        if (id == currentTree.getId()) {
-//            treeType = (TextView) findViewById(R.id.titleTextView);
-//            treeType.setTextSize(40);
-//            treeType.setText("id :" + id + " OK");
-//        } else{
-//            treeType = (TextView) findViewById(R.id.titleTextView);
-//            treeType.setTextSize(40);
-//            treeType.setText("id :" + id + " NO");
-//        }
+                // Test ID
+    //        if (id == currentTree.getId()) {
+    //            treeType = (TextView) findViewById(R.id.titleTextView);
+    //            treeType.setTextSize(40);
+    //            treeType.setText("id :" + id + " OK");
+    //        } else{
+    //            treeType = (TextView) findViewById(R.id.titleTextView);
+    //            treeType.setTextSize(40);
+    //            treeType.setText("id :" + id + " NO");
+    //        }
 
-            type = currentTree.getTreeType();
-            treeImage = currentTree.getTreeImageName();
-            leafImage = currentTree.getLeafImageName();
+                type = currentTree.getTreeType();
+                treeImage = currentTree.getTreeImageName();
+                leafImage = currentTree.getLeafImageName();
 
-            treeType = (TextView) findViewById(R.id.titleTextView);
-            treeType.setTextSize(40);
-            treeType.setText(type);
+                treeType = (TextView) findViewById(R.id.titleTextView);
+                treeType.setTextSize(40);
+                treeType.setText(type);
 
-            File root = Environment.getExternalStorageDirectory();
-            ImageView IVTree = (ImageView) findViewById(R.id.treeImageView);
-            Bitmap bMapTree = BitmapFactory.decodeFile(root
-                    + "/Android/data/"
-                    + getApplicationContext().getPackageName()
-                    + "/Files/"
-                    + treeImage);
-            IVTree.setImageBitmap(bMapTree);
+                File root = Environment.getExternalStorageDirectory();
+                ImageView IVTree = (ImageView) findViewById(R.id.treeImageView);
+                Bitmap bMapTree = BitmapFactory.decodeFile(root
+                        + "/Android/data/"
+                        + getApplicationContext().getPackageName()
+                        + "/Files/"
+                        + treeImage);
+                IVTree.setImageBitmap(bMapTree);
 
-            ImageView IVLeaf = (ImageView) findViewById(R.id.leafImageView);
-            Bitmap bMapLeaf = BitmapFactory.decodeFile(root
-                    + "/Android/data/"
-                    + getApplicationContext().getPackageName()
-                    + "/Files/"
-                    + leafImage);
-            IVLeaf.setImageBitmap(bMapLeaf);
+                ImageView IVLeaf = (ImageView) findViewById(R.id.leafImageView);
+                Bitmap bMapLeaf = BitmapFactory.decodeFile(root
+                        + "/Android/data/"
+                        + getApplicationContext().getPackageName()
+                        + "/Files/"
+                        + leafImage);
+                IVLeaf.setImageBitmap(bMapLeaf);
+        } else {
+                treeType = (TextView) findViewById(R.id.titleTextView);
+                treeType.setTextSize(40);
+                treeType.setText("Tree not existing");
+            }
 
         }
 

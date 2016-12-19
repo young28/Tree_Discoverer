@@ -42,6 +42,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 
+/**
+ * Created by YouYang and Matteo Pontiggia on 20/11/2016.
+ */
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
@@ -57,11 +61,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     static final int REQUEST_IMAGE_CAPTURE_FIRST = 1;
     static final int REQUEST_IMAGE_CAPTURE_SECOND = 2;
 
-    public final static String TEST_MESSAGE = "test";
-
-    private ArrayList<TreeMarker> mTreeMarkers;
-    private TreeMarker mTreeMarker;
-
+    public final static String MARKER_MESSAGE = "marker";
     private Button cameraButton;
     private Button refreshButton;
     private Bundle imagesBundle;
@@ -111,61 +111,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         imagesBundle = new Bundle();
 
-        mTreeMarkers = new ArrayList<>();
-        //mTreeMarker = new TreeMarker(700,"","","",0.0,0.0,"");
 
-        //createExampleTreeMarker();
-        //mTreeMarkers.add(mTreeMarker);
-
-        TreeDataSource dataSource = new TreeDataSource(this.getApplicationContext());
-        //dataSource.create(mTreeMarker);
-
-        //ArrayList<TreeMarker> treeMarkers = dataSource.read();
-
-        //mTreeMarkers = getValues();
     }
-
-    private void createExampleTreeMarker() {
-
-        mTreeMarker.setTreeImageName("MI_07122016_1453.jpg");
-        mTreeMarker.setLeafImageName("MI_07122016_1453.jpg");
-        mTreeMarker.setCreateDate("2016-12-15");
-        mTreeMarker.setLatitude(100.000000);
-        mTreeMarker.setLongitude(100.000000);
-        mTreeMarker.setTreeType("pine");
-    }
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-
-        // Add a marker in Sydney and move the camera
-        //LatLng sydney = new LatLng(-34, 151);
-        //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         Log.i(TAG, "Location services connected.");
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+
             return;
         }
         Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
@@ -177,7 +134,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
         }
         else {
-            findInitialLocation(location);
+            findCurrentLocation(location);
         };
     }
 
@@ -219,17 +176,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         updateMarkers();
 
-
-//        Intent data = getIntent();
-//        String img1 = data.getStringExtra("img1");
-//        String img2 = data.getStringExtra("img2");
-//        String tree_type = data.getStringExtra("type");
-//        Double lat = data.getDoubleExtra("lat",0);
-//        Double lon = data.getDoubleExtra("lon",0);
-//
-//        if(img1 != null && tree_type != null) {
-//            createMarkerLocation(lat, lon);
-//        }
     }
 
 
@@ -240,18 +186,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (mGoogleApiClient.isConnected()) {
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
             mGoogleApiClient.disconnect();
-         //   stopLocationUpdates();
         }
 
     }
-    protected void stopLocationUpdates() {
-        LocationServices.FusedLocationApi.removeLocationUpdates(
-                mGoogleApiClient, this);
-    }
+
     private void setUpMapIfNeeded() {
 
     }
-    private void findInitialLocation (Location location){
+    private void findCurrentLocation(Location location){
         Log.d(TAG, location.toString());
         double currentLatitude = location.getLatitude();
         double currentLongitude = location.getLongitude();
@@ -273,27 +215,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         actualPosition.setPosition( new LatLng(currentLatitude, currentLongitude));
     }
 
-    private void createTestLocation(Location location) {
-        Log.d(TAG, location.toString());
-        double currentLatitude = location.getLatitude();
-        double currentLongitude = location.getLongitude();
-        LatLng latLng = new LatLng(currentLatitude, currentLongitude);
-        Bitmap icon = BitmapFactory.decodeResource(getResources(),R.mipmap.tree_logo3);
-        MarkerOptions options = new MarkerOptions()
-                .position(latLng)
-                .title("Coordinates")
-                .icon(BitmapDescriptorFactory.fromBitmap(icon));
-        mMap.addMarker(options);
-        mMap.setOnMarkerClickListener(this);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-//        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLatitude, currentLongitude), 18));
-
-
-    }
-
+// Method to create markers for the trees when refreshing.
     public void createMarkerLocation(int id, Double lat, Double lon) {
         LatLng latLng = new LatLng(lat, lon);
-        //int identifier = id;
         Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.tree_logo3);
         MarkerOptions options = new MarkerOptions()
                 .position(latLng)
@@ -304,7 +228,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.addMarker(options).setTag(1);
             mMap.setOnMarkerClickListener(this);
         }
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
     }
 
     private void updateMarkers (){
@@ -330,29 +253,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onClick(View v) {
-        //createTestLocation(mLocation);
         mMap.clear();
-        findInitialLocation(mLocation);
+        findCurrentLocation(mLocation);
         updateMarkers ();
     }
-//    @Override
-//    public boolean onMarkerClick(final Marker marker) {
-//
-//        if (marker.equals(myMarker))
-//        {
-//            //handle click here
-//        }
-//    }
-
-    //find marker by title
+    // Send the tree ID to the TreeMarkerDisplay Class to display its info
     @Override
     public boolean onMarkerClick(Marker marker) {
 
             Intent intent = new Intent(this, TreeMarkerDisplay.class);
-            String message = "this is a tree, test success!";
             String id = marker.getTitle();
             if((Integer) marker.getTag()==1) {
-                intent.putExtra(TEST_MESSAGE, id);
+                intent.putExtra(MARKER_MESSAGE, id);
                 startActivity(intent);
             }
 
@@ -397,8 +309,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     public Action getIndexApiAction() {
         Thing object = new Thing.Builder()
-                .setName("Maps Page") // TODO: Define a title for the content shown.
-                // TODO: Make sure this auto-generated URL is correct.
+                .setName("Maps Page")
                 .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
                 .build();
         return new Action.Builder(Action.TYPE_VIEW)
@@ -426,30 +337,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         AppIndex.AppIndexApi.end(mGoogleApiClient, getIndexApiAction());
         mGoogleApiClient.disconnect();
     }
-
-
-
-//    public ArrayList<TreeMarker> getValues() {
-//        ArrayList<TreeMarker> markers = new ArrayList<TreeMarker>();
-//
-//        TreeDatabaseOpenHelper databaseOpenHelper = new TreeDatabaseOpenHelper(getApplicationContext());
-//        SQLiteDatabase database = databaseOpenHelper.getWritableDatabase();
-//
-//        Cursor cursor = database.query(TreeDatabaseOpenHelper.TREE_TABLE_NAME, null, null, null, null, null, null );
-//        //Cursor cursor = database.rawQuery("SELECT * FROM " + TreeDatabaseOpenHelper.TREE_TABLE_NAME, null);
-//
-//        cursor.moveToFirst();
-//
-//        for(int i=0; i<cursor.getCount(); i++){
-//            markers.add(new TreeMarker(cursor.getInt(1), cursor.getString(2),
-//                    cursor.getString(3), cursor.getString(4),cursor.getDouble(5),
-//                    cursor.getDouble(6)));
-//        }
-//
-//        cursor.close();
-//        database.close();
-//        return markers;
-//    }
-
 
 }

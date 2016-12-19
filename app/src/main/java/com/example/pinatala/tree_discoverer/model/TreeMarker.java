@@ -1,7 +1,7 @@
 package com.example.pinatala.tree_discoverer.model;
 
 /**
- * Created by YouYang on 14/12/16.
+ * Created by YouYang and Matteo Pontiggia on 14/12/16.
  */
 
 public class TreeMarker {

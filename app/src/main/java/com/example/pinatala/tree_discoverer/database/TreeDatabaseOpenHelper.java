@@ -53,7 +53,7 @@ public class TreeDatabaseOpenHelper extends SQLiteOpenHelper {
             + KEY_LEAF_PHOTO_NAME + " TEXT, "  + KEY_DATE + " TEXT, " + KEY_LATITUDE + " REAL, "
             + KEY_LONGITUDE + " REAL, " + KEY_TYPE_NAME + " TEXT);";
 
-
+// These declarations are not used now, but are useful for future function extensions
 
     public static final String CREATE_TABLE_TREE_TYPE = "CREATE TABLE IF NOT EXISTS " + TYPE_TABLE_NAME +
             " (" + KEY_TREE_TYPE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + KEY_TYPE_NAME + " TEXT);";
@@ -84,7 +84,7 @@ public class TreeDatabaseOpenHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
 
     }
-
+    // These constructors are not used now, but are useful for future function extensions
     public TreeDatabaseOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version, DatabaseErrorHandler errorHandler) {
         super(context, name, factory, version, errorHandler);
     }

@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Created by YouYang on 23/11/16.
+ * Created by YouYang and Matteo Pontiggia on 23/11/16.
  */
 
 public class FindNewTreeActivity extends AppCompatActivity {
@@ -99,14 +99,13 @@ public class FindNewTreeActivity extends AppCompatActivity {
 
     private void addSpinner() {
         mSpinner = (Spinner) findViewById(R.id.spinner);
-        //selectedTreeType = String.valueOf(mSpinner.getSelectedItem());
     }
 
 
 
     private void addSubmitButton() {
         submitButton = (Button) findViewById(R.id.submitButton);
-
+// On Submit clicks it saves all fields in the database
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,40 +113,25 @@ public class FindNewTreeActivity extends AppCompatActivity {
                 id = getTreesCount();
                 Toast.makeText(FindNewTreeActivity.this, selectedTreeType + "["+id+"]"
                         + lat + lon + img1 + img2, Toast.LENGTH_LONG).show();
-                //new SaveToDatabase().execute();
+
                 treeMarkerClick = new TreeMarker(id , img1 ,img2, "", lat,lon, selectedTreeType);
-//                treeMarkerClick.setTreeImageName(img1);
-//                treeMarkerClick.setLeafImageName(img2);
-//                treeMarkerClick.setCreateDate("");
-//                treeMarkerClick.setLatitude(lat);
-//                treeMarkerClick.setLongitude(lon);
-//                treeMarkerClick.setTreeType(selectedTreeType);
 
                 TreeDataSource dataSource = new TreeDataSource(FindNewTreeActivity.this);
                 dataSource.create(treeMarkerClick);
 
                 ArrayList<TreeMarker> testMarkers = dataSource.read();
 
-
-//                Intent intent = new Intent(FindNewTreeActivity.this, MapsActivity.class);
-//                intent.putExtra("lat", lat);
-//                intent.putExtra("lon", lon);
-//                intent.putExtra("img1", img1);
-//                intent.putExtra("img2", img2);
-//                intent.putExtra("type", selectedTreeType);
-//
-//                startActivity(intent);
                 finish();
             }
         });
     }
 
+
+    // testing methods to check for the lifecycle of the Activity
     @Override
     protected void onResume(){
         super.onResume();
         Log.d("TreeAct", "onResumeCalled");
-
-
     }
 
     @Override
@@ -211,31 +195,33 @@ public class FindNewTreeActivity extends AppCompatActivity {
         return mediaFile;
     }
 
+// This is our first testing class for saving data to database.
+//    private class SaveToDatabase extends AsyncTask<Void, Void, Void>{
+//
+//        @Override
+//        protected Void doInBackground(Void... params) {
+//
+//            TreeDatabaseOpenHelper databaseOpenHelper = new TreeDatabaseOpenHelper(getApplicationContext());
+//            SQLiteDatabase database = databaseOpenHelper.getWritableDatabase();
+//            String timeStamp = new SimpleDateFormat("dd-MM-yyyy HH:mm:SS").format(new Date());
+//
+//            ContentValues values = new ContentValues();
+//            values.put(TreeDatabaseOpenHelper.KEY_DATE, timeStamp);
+//            values.put(TreeDatabaseOpenHelper.KEY_LATITUDE, lat);
+//            values.put(TreeDatabaseOpenHelper.KEY_LONGITUDE, lon);
+//            values.put(TreeDatabaseOpenHelper.KEY_TREE_PHOTO_NAME, img1);
+//            values.put(TreeDatabaseOpenHelper.KEY_LEAF_PHOTO_NAME, img2);
+//            values.put(TreeDatabaseOpenHelper.KEY_TYPE_NAME, selectedTreeType);
+//
+//            long inserted = database.insert(TreeDatabaseOpenHelper.TREE_TABLE_NAME, null, values);
+//
+//            Log.d("Database", "Insert operation result "+ inserted);
+//            database.close();
+//            return null;
+//        }
+//    }
 
-    private class SaveToDatabase extends AsyncTask<Void, Void, Void>{
-
-        @Override
-        protected Void doInBackground(Void... params) {
-
-            TreeDatabaseOpenHelper databaseOpenHelper = new TreeDatabaseOpenHelper(getApplicationContext());
-            SQLiteDatabase database = databaseOpenHelper.getWritableDatabase();
-            String timeStamp = new SimpleDateFormat("dd-MM-yyyy HH:mm:SS").format(new Date());
-
-            ContentValues values = new ContentValues();
-            values.put(TreeDatabaseOpenHelper.KEY_DATE, timeStamp);
-            values.put(TreeDatabaseOpenHelper.KEY_LATITUDE, lat);
-            values.put(TreeDatabaseOpenHelper.KEY_LONGITUDE, lon);
-            values.put(TreeDatabaseOpenHelper.KEY_TREE_PHOTO_NAME, img1);
-            values.put(TreeDatabaseOpenHelper.KEY_LEAF_PHOTO_NAME, img2);
-            values.put(TreeDatabaseOpenHelper.KEY_TYPE_NAME, selectedTreeType);
-
-            long inserted = database.insert(TreeDatabaseOpenHelper.TREE_TABLE_NAME, null, values);
-
-            Log.d("Database", "Insert operation result "+ inserted);
-            database.close();
-            return null;
-        }
-    }
+    // We need tree count to assign the last ID to a new tree
     public int getTreesCount() {
         TreeDatabaseOpenHelper treeDatabaseOpenHelper = new TreeDatabaseOpenHelper(this.getApplicationContext());
         String countQuery = "SELECT  * FROM " + TreeDatabaseOpenHelper.TREE_TABLE_NAME;

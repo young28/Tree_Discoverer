@@ -21,8 +21,6 @@ public class TreeDataSource {
     public TreeDataSource(Context context){
         mContext = context;
         mTreeDatabaseOpenHelper = new TreeDatabaseOpenHelper(mContext);
-//        SQLiteDatabase db = mTreeDatabaseOpenHelper.getReadableDatabase();
-//        db.close();
     }
 
     private SQLiteDatabase open(){
@@ -54,6 +52,7 @@ public class TreeDataSource {
                 null); //order
 
         ArrayList<TreeMarker> treeMarkers = new ArrayList<>();
+        // It goes through each row of the database and add them to the treeMarkers Arraylist.
         if(cursor.moveToFirst()){
             do{
                 TreeMarker treeMarker = new TreeMarker(getIntFromColumnName(cursor,TreeDatabaseOpenHelper.KEY_TREE_ID),
@@ -107,15 +106,6 @@ public class TreeDataSource {
         database.endTransaction();
         close(database);
     }
-
-
-//    public void delete (String id){
-//        SQLiteDatabase database = open();
-//        database.beginTransaction();
-//
-//        ContentValues treeValues = new ContentValues();
-//        treeValues.remove(id);
-//    }
 
     //Method to delete one treeMarker record by ID
     public void delete (int treeId){
