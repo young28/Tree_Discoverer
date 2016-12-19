@@ -112,7 +112,8 @@ public class TreeMarkerDisplay extends AppCompatActivity {
 
     private void deleteTree(int id){
         TreeDataSource dataSource = new TreeDataSource(this.getApplicationContext());
-        dataSource.delete(id);
+        dataSource.update(id);
+
 
         ArrayList<TreeMarker> testMarkers = dataSource.read();
     }

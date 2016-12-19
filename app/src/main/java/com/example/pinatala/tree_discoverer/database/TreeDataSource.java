@@ -120,4 +120,27 @@ public class TreeDataSource {
         database.setTransactionSuccessful();
         database.endTransaction();
     }
+
+    //Method to update one treeMarker record
+    public void update (int treeId){
+        SQLiteDatabase database = open();
+        database.beginTransaction();
+
+        //update the item in table TREE_TABLE_NAME, whose id is equal to treeId
+        ContentValues treeValues = new ContentValues();
+        treeValues.put(TreeDatabaseOpenHelper.KEY_TREE_PHOTO_NAME, "");
+        treeValues.put(TreeDatabaseOpenHelper.KEY_LEAF_PHOTO_NAME,"");
+        treeValues.put(TreeDatabaseOpenHelper.KEY_DATE, "");
+        treeValues.put(TreeDatabaseOpenHelper.KEY_LATITUDE, "");
+        treeValues.put(TreeDatabaseOpenHelper.KEY_LONGITUDE, "");
+        treeValues.put(TreeDatabaseOpenHelper.KEY_TYPE_NAME, "deleted_tree");
+
+        database.update(TreeDatabaseOpenHelper.TREE_TABLE_NAME,
+                treeValues,
+                String.format("%s=%s", TreeDatabaseOpenHelper.KEY_TREE_ID, String.valueOf(treeId)),
+                null);
+
+        database.setTransactionSuccessful();
+        database.endTransaction();
+    }
 }

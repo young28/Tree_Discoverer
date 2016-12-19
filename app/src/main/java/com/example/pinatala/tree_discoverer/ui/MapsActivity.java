@@ -79,6 +79,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        mLocation = new Location("initial_location");
+        mLocation.setLatitude(46.0109729);
+        mLocation.setLongitude(8.9575052);
+
 
         // ATTENTION: This "addApi(AppIndex.API)"was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -174,6 +178,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (mGoogleApiClient.isConnected())LocationServices.FusedLocationApi.requestLocationUpdates(
                 mGoogleApiClient, mLocationRequest, this);
 
+        if(mMap != null) {
+            mMap.clear();
+            findCurrentLocation(mLocation);
+        }
         updateMarkers();
 
     }
@@ -212,7 +220,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Log.d(TAG, location.toString());
         double currentLatitude = location.getLatitude();
         double currentLongitude = location.getLongitude();
-        actualPosition.setPosition( new LatLng(currentLatitude, currentLongitude));
+        if(actualPosition!=null) {
+            actualPosition.setPosition(new LatLng(currentLatitude, currentLongitude));
+        }else{
+            findCurrentLocation(mLocation);
+        }
     }
 
 // Method to create markers for the trees when refreshing.
@@ -230,15 +242,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    private void updateMarkers (){
+    public void updateMarkers (){
         TreeDataSource dataSource = new TreeDataSource(this.getApplicationContext());
         ArrayList<TreeMarker> treeMarkers = dataSource.read();
         for (int i = 0; i < treeMarkers.size(); i++){
             TreeMarker currentTree = treeMarkers.get(i);
             int id = currentTree.getId();
-            double lat = currentTree.getLatitude ();
-            double lon = currentTree.getLongitude ();
-           createMarkerLocation(id ,lat,lon);
+            if(currentTree.getTreeType().equals("deleted_tree")){
+
+            }else{
+                double lat = currentTree.getLatitude ();
+                double lon = currentTree.getLongitude ();
+                createMarkerLocation(id ,lat,lon);
+            }
         }
 
     }
