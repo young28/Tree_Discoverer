@@ -12,11 +12,13 @@ import android.provider.BaseColumns;
 
 public class TreeDatabaseOpenHelper extends SQLiteOpenHelper {
 
+    //Create the fields
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "tree";
 
     public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss:SSS";
 
+    public static final String TREE_TABLE_NAME = "tree_info";
     public static final String KEY_TREE_ID = "tree_id";
     public static final String KEY_DATE = "date";
     public static final String KEY_LATITUDE = "latitude";
@@ -25,7 +27,7 @@ public class TreeDatabaseOpenHelper extends SQLiteOpenHelper {
     public static final String KEY_LEAF_PHOTO_NAME = "leaf_photo";
     public static final String KEY_TYPE_NAME = "type_name";
 
-    public static final String TREE_TABLE_NAME = "tree_info";
+
 
     public static final String KEY_TREE_TYPE_ID = "tree_type_id";
     //public static final String KEY_TYPE_NAME = "type_name";
@@ -77,6 +79,7 @@ public class TreeDatabaseOpenHelper extends SQLiteOpenHelper {
 
     }
 
+    //The class constructor
     public TreeDatabaseOpenHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
 

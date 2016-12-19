@@ -5,6 +5,7 @@ package com.example.pinatala.tree_discoverer.model;
  */
 
 public class TreeMarker {
+    //Create the fields
     private int id;
     private String treeImageName;
     private String leafImageName;
@@ -30,6 +31,7 @@ public class TreeMarker {
     }
 
 
+    //Set getter and setter of all the fields
     public int getId() {
         return id;
     }

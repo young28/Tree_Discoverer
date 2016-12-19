@@ -14,6 +14,7 @@ import java.util.ArrayList;
  */
 
 public class TreeDataSource {
+    //Create the fields
     private Context mContext;
     private TreeDatabaseOpenHelper mTreeDatabaseOpenHelper;
 
@@ -32,6 +33,7 @@ public class TreeDataSource {
         database.close();
     }
 
+    //TreeMarker arrayList Retrieve methods: read() + readTreeMarkers()
     public ArrayList<TreeMarker> read(){
         ArrayList<TreeMarker> treeMarkers = readTreeMarkers();
         return treeMarkers;
@@ -69,6 +71,7 @@ public class TreeDataSource {
         return treeMarkers;
     }
 
+    //Support methods for readTreeMarkers()
     private int getIntFromColumnName(Cursor cursor, String columnName){
         int columnIndex = cursor.getColumnIndex(columnName);
         return cursor.getInt(columnIndex);
@@ -84,6 +87,7 @@ public class TreeDataSource {
         return cursor.getDouble(columnIndex);
     }
 
+    //Method to create(insert) new treeMarker
     public void create(TreeMarker treeMarker){
         SQLiteDatabase database = open();
         database.beginTransaction();
@@ -103,11 +107,27 @@ public class TreeDataSource {
         database.endTransaction();
         close(database);
     }
-    public void delete (String id){
+
+
+//    public void delete (String id){
+//        SQLiteDatabase database = open();
+//        database.beginTransaction();
+//
+//        ContentValues treeValues = new ContentValues();
+//        treeValues.remove(id);
+//    }
+
+    //Method to delete one treeMarker record by ID
+    public void delete (int treeId){
         SQLiteDatabase database = open();
         database.beginTransaction();
 
-        ContentValues treeValues = new ContentValues();
-        treeValues.remove(id);
+        //delete the item in table TREE_TABLE_NAME, whose id is equal to treeId
+        database.delete(TreeDatabaseOpenHelper.TREE_TABLE_NAME,
+                String.format("%s=%s", TreeDatabaseOpenHelper.KEY_TREE_ID, String.valueOf(treeId)),
+                null);
+
+        database.setTransactionSuccessful();
+        database.endTransaction();
     }
 }

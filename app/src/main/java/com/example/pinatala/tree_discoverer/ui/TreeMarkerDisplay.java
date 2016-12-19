@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,14 +18,13 @@ import com.example.pinatala.tree_discoverer.model.TreeMarker;
 import java.io.File;
 import java.util.ArrayList;
 
-import static com.example.pinatala.tree_discoverer.R.id.cameraButton;
-import static com.example.pinatala.tree_discoverer.R.id.deleteButton;
-
 /**
  * Created by YouYang on 05/12/16.
  */
 
-public class TestClickTree extends AppCompatActivity {
+public class TreeMarkerDisplay extends AppCompatActivity {
+    //Create the fields
+    private int treeId;
     private TextView treeType;
     private String type;
     private String treeImage;
@@ -37,11 +37,11 @@ public class TestClickTree extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.test_click_layout);
+        setContentView(R.layout.tree_marker_display_layout);
 
-        //deleteButton = (Button) findViewById(deleteButton);
+        deleteButton = (Button) findViewById(R.id.deleteButton);
 
-        Intent data = getIntent();
+        final Intent data = getIntent();
         message = data.getStringExtra(MapsActivity.TEST_MESSAGE);
         if (message.equalsIgnoreCase("I am here!")) {
             treeType = (TextView) findViewById(R.id.titleTextView);
@@ -50,12 +50,11 @@ public class TestClickTree extends AppCompatActivity {
         }
         else {
 
-            int id = Integer.parseInt(message);
-
+            treeId = Integer.parseInt(message);
 
             TreeDataSource dataSource = new TreeDataSource(this.getApplicationContext());
             ArrayList<TreeMarker> treeMarkers = dataSource.read();
-            TreeMarker currentTree = treeMarkers.get(id);
+            TreeMarker currentTree = treeMarkers.get(treeId);
 
             // Test ID
 //        if (id == currentTree.getId()) {
@@ -95,5 +94,20 @@ public class TestClickTree extends AppCompatActivity {
 
         }
 
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteTree(treeId);
+                finish();
+            }
+        });
+
+    }
+
+    private void deleteTree(int id){
+        TreeDataSource dataSource = new TreeDataSource(this.getApplicationContext());
+        dataSource.delete(id);
+
+        ArrayList<TreeMarker> testMarkers = dataSource.read();
     }
 }

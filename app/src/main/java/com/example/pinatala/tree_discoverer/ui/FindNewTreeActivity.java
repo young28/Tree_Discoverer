@@ -36,6 +36,7 @@ import java.util.Date;
  */
 
 public class FindNewTreeActivity extends AppCompatActivity {
+    //Create the fields
     public static final String TAG = FindNewTreeActivity.class.getSimpleName();
 
     private ImageView treeImageView;

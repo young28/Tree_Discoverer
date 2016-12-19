@@ -49,6 +49,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         View.OnClickListener,
         GoogleMap.OnMarkerClickListener{
 
+    //Create the fields
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
     public static final String TAG = MapsActivity.class.getSimpleName();
@@ -62,7 +63,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private TreeMarker mTreeMarker;
 
     private Button cameraButton;
-    private Button testButton;
+    private Button refreshButton;
     private Bundle imagesBundle;
     private LocationRequest mLocationRequest;
     private Location mLocation;
@@ -93,8 +94,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
         cameraButton = (Button) findViewById(R.id.cameraButton);
-        testButton = (Button) findViewById(R.id.testPositionButton);
-        testButton.setOnClickListener(this);
+        refreshButton = (Button) findViewById(R.id.refreshButton);
+        refreshButton.setOnClickListener(this);
 
 
         cameraButton.setOnClickListener(new View.OnClickListener() {
@@ -198,6 +199,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Log.i(TAG, "Location services connection failed with code " + connectionResult.getErrorCode());
         }
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -260,6 +262,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .title("I am here!")
                 .icon(BitmapDescriptorFactory.fromBitmap(icon));
         actualPosition = mMap.addMarker(options);
+        actualPosition.setTag(0);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLatitude, currentLongitude), 18));
     }
@@ -298,7 +301,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .icon(BitmapDescriptorFactory.fromBitmap(icon));
 
         if(mMap!=null) {
-            mMap.addMarker(options);
+            mMap.addMarker(options).setTag(1);
             mMap.setOnMarkerClickListener(this);
         }
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
@@ -328,6 +331,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onClick(View v) {
         //createTestLocation(mLocation);
+        mMap.clear();
+        findInitialLocation(mLocation);
         updateMarkers ();
     }
 //    @Override
@@ -343,12 +348,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public boolean onMarkerClick(Marker marker) {
 
-
-            Intent intent = new Intent(this, TestClickTree.class);
+            Intent intent = new Intent(this, TreeMarkerDisplay.class);
             String message = "this is a tree, test success!";
             String id = marker.getTitle();
-            intent.putExtra(TEST_MESSAGE, id);
-            startActivity(intent);
+            if((Integer) marker.getTag()==1) {
+                intent.putExtra(TEST_MESSAGE, id);
+                startActivity(intent);
+            }
 
 
         return true;
