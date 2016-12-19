@@ -57,7 +57,7 @@ public class TreeMarkerDisplay extends AppCompatActivity {
             if (treeMarkers.size() > treeId) {
                 TreeMarker currentTree = treeMarkers.get(treeId);
 
-                // Test ID
+                // We use this to Test if the sent id is the real ID we want.
     //        if (id == currentTree.getId()) {
     //            treeType = (TextView) findViewById(R.id.titleTextView);
     //            treeType.setTextSize(40);
@@ -110,11 +110,10 @@ public class TreeMarkerDisplay extends AppCompatActivity {
 
     }
 
+    //Method to delete one tree marker by making it invisible on the map
     private void deleteTree(int id){
         TreeDataSource dataSource = new TreeDataSource(this.getApplicationContext());
         dataSource.update(id);
-
-
-        ArrayList<TreeMarker> testMarkers = dataSource.read();
+        //ArrayList<TreeMarker> testMarkers = dataSource.read();
     }
 }

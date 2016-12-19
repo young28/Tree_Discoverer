@@ -97,6 +97,7 @@ public class FindNewTreeActivity extends AppCompatActivity {
 
     }
 
+    //add the spinner to select tree type
     private void addSpinner() {
         mSpinner = (Spinner) findViewById(R.id.spinner);
     }
@@ -152,7 +153,7 @@ public class FindNewTreeActivity extends AppCompatActivity {
         Log.d("TreeAct", "onDestroyCalled");
     }
 
-
+    //Method to store the image we received in external storage on the phone
     private void storeImage(Bitmap image, String fileName) {
         File pictureFile = getOutputMediaFile(fileName);
         if (pictureFile == null) {
@@ -196,6 +197,7 @@ public class FindNewTreeActivity extends AppCompatActivity {
     }
 
 // This is our first testing class for saving data to database.
+
 //    private class SaveToDatabase extends AsyncTask<Void, Void, Void>{
 //
 //        @Override
@@ -231,7 +233,4 @@ public class FindNewTreeActivity extends AppCompatActivity {
         cursor.close();
         return cnt;
     }
-
-
-
 }

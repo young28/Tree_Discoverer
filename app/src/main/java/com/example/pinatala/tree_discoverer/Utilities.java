@@ -11,6 +11,7 @@ import java.io.ByteArrayOutputStream;
 
 public class Utilities {
 
+    //Method to convert from the bitmap format to ByteArray
     public static byte[] bitmapToByteArray(Bitmap image){
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         image.compress(Bitmap.CompressFormat.PNG, 100, stream);
@@ -19,6 +20,7 @@ public class Utilities {
         return byteArray;
     }
 
+    //Method to convert from the ByteArray format to bitmap
     public static Bitmap byteArrayToBitmap(byte[] byteArray){
         Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
         return bitmap;

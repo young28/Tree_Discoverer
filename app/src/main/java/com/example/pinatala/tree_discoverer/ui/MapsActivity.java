@@ -178,6 +178,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (mGoogleApiClient.isConnected())LocationServices.FusedLocationApi.requestLocationUpdates(
                 mGoogleApiClient, mLocationRequest, this);
 
+        //Refresh the map view and get markers again when the app resumes
         if(mMap != null) {
             mMap.clear();
             findCurrentLocation(mLocation);
@@ -201,6 +202,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void setUpMapIfNeeded() {
 
     }
+
+    //Method to get current location
     private void findCurrentLocation(Location location){
         Log.d(TAG, location.toString());
         double currentLatitude = location.getLatitude();
@@ -242,6 +245,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    //Method to retrieve information from database, and create tree markers on map based on that
     public void updateMarkers (){
         TreeDataSource dataSource = new TreeDataSource(this.getApplicationContext());
         ArrayList<TreeMarker> treeMarkers = dataSource.read();
@@ -289,6 +293,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     // To take the photo of the tree and leaf, and display in DisplayActivity
+    // We send the image info as ByteArray and send it out by intent to FindNewTreeActivity
         @Override
         protected void onActivityResult(int requestCode, int resultCode, Intent data) {
             if (requestCode == REQUEST_IMAGE_CAPTURE_FIRST && resultCode == RESULT_OK) {

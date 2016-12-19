@@ -122,6 +122,7 @@ public class TreeDataSource {
     }
 
     //Method to update one treeMarker record
+    // we use this to deleted one item by setting it "deleted_tree"
     public void update (int treeId){
         SQLiteDatabase database = open();
         database.beginTransaction();
